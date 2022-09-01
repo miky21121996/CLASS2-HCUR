@@ -2,9 +2,9 @@
 
 source /work/oda/mg28621/prova_destag/surface_insitu_validation/surface_insitu_validation/current_val.sh
 
-#bsub -K -n 1 -q s_long -J EANCALC -e aderr_0 -o adout_0 -P 0510 "python obs_extraction.py $date_in $date_fin $path_to_metadata_obs_file $time_res $path_to_out_obs_ts $depth_obs $nan_treshold $path_to_accepted_metadata_obs_file" &
+bsub -K -n 1 -q s_long -J EANCALC -e aderr_0 -o adout_0 -P 0510 "python obs_extraction.py $date_in $date_fin $path_to_metadata_obs_file $time_res $path_to_out_obs_ts $depth_obs $nan_treshold $path_to_accepted_metadata_obs_file" &
 
-#wait
+wait
 
 IFS=',' read -r -a name_exp_array <<< "$name_exp"
 
