@@ -14,17 +14,15 @@
 
 #[My Section]
 
-date_in=20190101
-date_fin=20191231
-#path_to_mod_output=/work/oda/ag15419/exp/eas6_v8/simu_ctrl0/output/
-#path_to_destag_output_folder = /work/oda/mg28621/prova_destag/
+#INPUT VARIABLES
+date_in=20200101
+date_fin=20211230
 num_exp=1
-#name_exp=minr_ctrl0,minr_3
 time_res=1d
-#path_to_mask_file=/work/oda/mg28621/prova_destag/mesh_mask.nc
-path_to_obs_file=/work/oda/mg28621/prova_destag/surface_insitu_validation/obs_metadata_accepted_2019_treshold_0p4_eas5_hp_v2.csv
-#path_to_destag_output_folder=/work/oda/mg28621/prova_destag/destaggered_UV_folder_oct_nov_2020/
-path_to_out_mod_ts=/work/oda/mg28621/prova_destag/surface_insitu_validation/output_mod_ts_2019_3m_completed_treshold_0p4_eas5_hp_v2/,EAS5
-path_to_out_obs_ts=/work/oda/mg28621/prova_destag/surface_insitu_validation/output_obs_ts_2019_3m_completed_treshold_0p4_eas5_hp_v2/
-path_to_output_plot_folder=/work/oda/mg28621/prova_destag/surface_insitu_validation/output_plot_2019_3m_completed_treshold_0p4_eas5_hp_v2/
-time_res_xaxis=3w
+path_to_obs_file=/work/oda/mg28621/prova_destag/surface_insitu_validation/surface_insitu_validation/prova_obs_metadata_accepted_2020_2021_treshold_0p5_eas7.csv
+path_to_out_mod_ts=/work/oda/mg28621/prova_destag/surface_insitu_validation/surface_insitu_validation/prova_output_mod_ts_2020_2021_3m_completed_treshold_0p5_eas7/,EAS7
+path_to_out_obs_ts=/work/oda/mg28621/prova_destag/surface_insitu_validation/surface_insitu_validation/prova_output_obs_ts_2020_2021_3m_completed_treshold_0p5_eas7_correct_vida/
+time_res_xaxis=1m
+
+#OUTPUT VARIABLES
+path_to_output_plot_folder=/work/oda/mg28621/prova_destag/surface_insitu_validation/surface_insitu_validation/prova_output_plot_2020_2021_3m_completed_treshold_0p5_eas7_no_mykon_correct_vida/
