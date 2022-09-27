@@ -2,7 +2,7 @@
 The tool run requires the installation of a python environment, with the following modules: sys, netCDF4, os, datetime, math, numpy, xarray, scipy, csv, matplotlib, mpl_toolkits.basemap, statistics, pandas, statsmodels
 
 
-1. Open current_val.sh
+1. Open current_val.ini
 INPUT VARIABLES:
 
   a. date_in: initial date  
@@ -15,16 +15,19 @@ INPUT VARIABLES:
   h. depth_obs: depth around which model values are extracted to compare (leave 3)  
   i. nan_treshold: percentage treshold above which values are not accepted
  OUTPUT VARIABLES
+ 
   l. work_dir: directory where all tool will work
   m. path_to_accepted_metadata_obs_file: location of metadata file created after checks
   n. path_to_destag_output_folder: location of folder in which destaggered model files are created (if you want to create destaggered files from scratch, delete the folder before the run, if you already have destaggered files just indicate the path) 
   o. path_to_out_mod_ts: location of extracted model time series nc files  
   p. path_to_out_obs_ts: location of extracted observation time series nc files  
      
-  
-2. run: sh main_mod.sh  
-3. Open current_val_plot.sh  
+2. run: sh main_mod_obs_extraction.sh  
+
+3. Open current_val_plot.ini  
+
 INPUT VARIABLES
+
   a. date_in  
   b. date_fin  
   c. num_exp: number of experiments. If num_exp = 1 main_plot.sh will provide plots about validation of the single experiment against observations. If num_exp > 1, main_plot.sh will provide plots about comparison between the experiments.  
@@ -36,6 +39,8 @@ INPUT VARIABLES
   g. path_to_out_obs_ts: location of extracted observation time series nc files
   h. time_res_xaxis: resolution of x axis in the plots (example-> 2w: each two weeks)
 OUTPUT VARIABLES
-  h. path_to_output_plot_folder: location of folder in which plots are created  
+
+  i. work_plot_dir
+  l. path_to_output_plot_folder: location of folder in which plots are created  
 
 4. run: sh main_plot.sh  
