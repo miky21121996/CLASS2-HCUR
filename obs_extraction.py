@@ -220,8 +220,10 @@ if __name__ == "__main__":
     depth_obs=argv[6]
     nan_treshold=argv[7]
     path_to_accepted_obs_file=argv[8]
+    work_dir=argv[9]
 
     # Create a new directory because it does not exist
+    os.makedirs(work_dir, exist_ok=True)
     os.makedirs(path_to_out_obs_ts, exist_ok=True)
     print("The new directory is created!")
 
@@ -279,10 +281,23 @@ if __name__ == "__main__":
 
     obs_file, dict_daily_vel_obs, dict_nan_counter = check_nan(dict_daily_vel_obs, dict_count_nan_vel_obs, obs_file, n_days, nan_treshold)
 
-    up_dict = {36:np.where(dict_daily_vel_obs[36][:]>0.2,np.nan,dict_daily_vel_obs[36][:])}
+    # list out keys and values separately
+    key_list = list(obs_file.keys())
+    val_list = list(obs_file.values())
+    for dict_key,dict_value in obs_file.items(): 
+        subkey_list = list(dict_value.keys())
+        subval_list = list(dict_value.values())
+        if "VIDA" in subval_list:
+            #position = subval_list.index("VIDA")
+            #print(subkey_list[position])
+            print("dict key: ",dict_key)
+            key_vida=dict_key
+            break
+    #print("chiave: ",key_list[subkey_list[position]])
+    up_dict = {key_vida:np.where(dict_daily_vel_obs[key_vida][:]>0.2,np.nan,dict_daily_vel_obs[key_vida][:])}
     dict_daily_vel_obs.update(up_dict)
 
-    nan_file = open("nan_counter_file_" + "_" + date_in + "_" + date_fin + ".csv", "w")
+    nan_file = open(work_dir+"nan_counter_file_" + "_" + date_in + "_" + date_fin + ".csv", "w")
     writer = csv.writer(nan_file)
     writer.writerow(["name_station", "nan fraction"])
     for key, value in dict_nan_counter.items():

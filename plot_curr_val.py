@@ -47,26 +47,6 @@ def Normalized_std(data,obs):
     data_obs=np.std(obs)
     return np.round(data_std/data_obs,2)
 
-def biasPlot(sat,model,expName, subset=False):
-
-    plt.figure(figsize=(15,5))
-    if not subset:
-        plt.plot(sat - model)
-
-        ticks_=np.linspace(0,len(labels)-1,5).astype(int)
-        outName='%s_biasPlot.png'%expName
-    else:
-        plt.plot(sat_hs[subset[0]:subset[1]] - model[subset[0]:subset[1]], 'g')
-        plt.plot(sat_hs[subset[0]:subset[1]] - model[subset[0]:subset[1]], 'r')
-        ticks_=np.linspace(subset[0],subset[1],5).astype(int)
-        outName='%s_biasPlot_scat%s.png'%(expName,subset[1])
-
-    labels_=labels[ticks_]
-    plt.xticks(ticks_,labels_,rotation=20)
-    plt.legend(['WAM','WW3'])
-    plt.ylabel('BIAS')
-    plt.savefig(os.path.join(outdir, outName))
-
 def scatterPlot(mod, obs, outname, name, **kwargs):
 
     if np.isnan(obs).any() or np.isnan(mod).any():
@@ -150,7 +130,7 @@ def daterange(start_date, end_date):
     for n in range(int ((end_date - start_date).days)+1):
         yield start_date + timedelta(n)
 
-def mapping(obs_file,lat,lon):
+def mapping(obs_file,lat,lon,work_dir_plot):
 
     for key in obs_file.copy():
         lat[key]=obs_file[key]['lat']
@@ -179,7 +159,7 @@ def mapping(obs_file,lat,lon):
 
     plt.legend(bbox_to_anchor=(0.5,-0.87), loc='lower center', prop={'size': 13})
     plt.title('Location of accepted mooring',fontsize=25)
-    plt.savefig('location.png')
+    plt.savefig(work_dir_plot+'location.png')
 
 def plot_mod_obs_ts_diff(name_stat, date_in, date_fin, time_res, obs_file, key_obs_file, vel_mod_ts, vel_obs_ts, name_exp, time_res_xaxis, path_to_output_plot_folder):
                 plotname = name_stat + '_' + date_in + '_' + date_fin + '_' + time_res + '_mod_obs_ts_difference.png'
@@ -561,8 +541,9 @@ if __name__ == "__main__":
     time_res=argv[6]
     time_res_xaxis=argv[7]
     num_exp=int(argv[8])
-    path_to_mod_ts_folder=argv[9:9+num_exp]
-    name_exp=argv[9+num_exp:9+2*num_exp]
+    work_dir_plot=argv[9]
+    path_to_mod_ts_folder=argv[10:10+num_exp]
+    name_exp=argv[10+num_exp:10+2*num_exp]
 
     os.makedirs(path_to_output_plot_folder,  exist_ok=True)
 
@@ -611,11 +592,11 @@ if __name__ == "__main__":
 
             tot_mean_stat=plot_mod_obs_ts(name_stat, date_in, date_fin, time_res, obs_file, key_obs_file, vel_mod_ts, vel_obs_ts, name_exp, time_res_xaxis, path_to_output_plot_folder)
 
-            plot_depth_obs_hist(name_stat, date_in, date_fin, obs_file, key_obs_file, depth_obs_ts, path_to_output_plot_folder)
+            #plot_depth_obs_hist(name_stat, date_in, date_fin, obs_file, key_obs_file, depth_obs_ts, path_to_output_plot_folder)
 
-            plot_qflag_obs_hist(name_stat, date_in, date_fin, obs_file, key_obs_file, qflag_obs_ts, path_to_output_plot_folder)
+            #plot_qflag_obs_hist(name_stat, date_in, date_fin, obs_file, key_obs_file, qflag_obs_ts, path_to_output_plot_folder)
 
-            plot_mod_obs_hist(name_stat, date_in, date_fin, time_res, obs_file, key_obs_file, vel_mod_ts, vel_obs_ts, path_to_output_plot_folder)
+            #plot_mod_obs_hist(name_stat, date_in, date_fin, time_res, obs_file, key_obs_file, vel_mod_ts, vel_obs_ts, path_to_output_plot_folder)
 
             plot_mod_obs_ECDF(name_stat, date_in, date_fin, time_res, obs_file, key_obs_file, vel_mod_ts, vel_obs_ts, path_to_output_plot_folder)
 
@@ -678,9 +659,9 @@ if __name__ == "__main__":
 
         lon={}
         lat={}
-        mapping(obs_file,lat,lon)
+        mapping(obs_file,lat,lon,work_dir_plot)
 
-        a_file = open("statistics_" + name_exp[0] + "_" + date_in + "_" + date_fin + ".csv", "w")
+        a_file = open(work_dir_plot+"statistics_" + name_exp[0] + "_" + date_in + "_" + date_fin + ".csv", "w")
         writer = csv.writer(a_file)
         writer.writerow(["name_station", "mean_mod", "mean_obs", "bias","rmse","si","corr","stderr","number_of_obs"])
         for key, value in statistics.items():
