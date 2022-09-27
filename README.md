@@ -4,6 +4,7 @@ The tool run requires the installation of a python environment, with the followi
 
 1. Open current_val.sh
 INPUT VARIABLES:
+
   a. date_in: initial date  
   b. date_fin: final date  
   c. path_to_mod_output: location of model files to be used  
@@ -14,10 +15,11 @@ INPUT VARIABLES:
   h. depth_obs: depth around which model values are extracted to compare (leave 3)  
   i. nan_treshold: percentage treshold above which values are not accepted
  OUTPUT VARIABLES
-  l. path_to_accepted_metadata_obs_file: location of metadata file created after checks
-  m. path_to_destag_output_folder: location of folder in which destaggered model files are created  
-  n. path_to_out_mod_ts: location of extracted model time series nc files  
-  o. path_to_out_obs_ts: location of extracted observation time series nc files  
+  l. work_dir: directory where all tool will work
+  m. path_to_accepted_metadata_obs_file: location of metadata file created after checks
+  n. path_to_destag_output_folder: location of folder in which destaggered model files are created (if you want to create destaggered files from scratch, delete the folder before the run, if you already have destaggered files just indicate the path) 
+  o. path_to_out_mod_ts: location of extracted model time series nc files  
+  p. path_to_out_obs_ts: location of extracted observation time series nc files  
      
   
 2. run: sh main_mod.sh  
