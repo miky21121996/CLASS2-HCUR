@@ -1,5 +1,5 @@
 # CLASS2-HCUR
-The tool run requires the installation of a python environment, with the following modules: sys, netCDF4, os, datetime, math, numpy, xarray, scipy, csv, matplotlib, mpl_toolkits.basemap, statistics, pandas, statsmodels
+The tool run requires the installation of a python environment, with the following modules: sys, warnings, netCDF4, os, datetime, math, numpy, xarray, scipy, csv, matplotlib, mpl_toolkits.basemap, statistics, pandas, statsmodels
 
 
 1. Open current_val.ini
