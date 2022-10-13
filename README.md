@@ -35,7 +35,7 @@ INPUT VARIABLES
   c. num_exp: number of experiments. If num_exp = 1 main_plot.sh will provide plots about validation of the single experiment against observations. If num_exp > 1, main_plot.sh will provide plots about comparison between the experiments.  
   d. time_res  
   e. path_to_obs_file: location of metadata file created after checks  
-  f. path_to_out_mod_ts: location of extracted model time series nc files, name you want to give in the plots  
+  f. path_to_out_mod_ts: location of extracted model time series nc files, name of experiment you want to give in the plots  
   Example: if num_exp = 1, path_to_out_mod_ts=/work/oda/mg28621/prova_destag/surface_insitu_validation/output_mod_ts_2019_3m_completed_treshold_0p4_eas5_hp_v2/,EAS5  
            if num_exp = 2, path_to_out_mod_ts=/work/oda/mg28621/prova_destag/surface_insitu_validation/output_mod_ts_2019_3m_completed_treshold_0p4_eas5_hp_v2/,/work/oda/mg28621/prova_destag/surface_insitu_validation/output_mod_ts_2019_3m_completed_treshold_0p4_minr_ctrl0/,EAS5,minr_ctrl0  
   g. path_to_out_obs_ts: location of extracted observation time series nc files
