@@ -1,3 +1,5 @@
+import warnings
+warnings.filterwarnings("ignore")
 import sys
 import netCDF4 as nc4
 import os.path

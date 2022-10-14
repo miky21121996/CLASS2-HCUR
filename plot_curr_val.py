@@ -690,7 +690,7 @@ if __name__ == "__main__":
 
         for key_obs_file, name_stat in zip(sorted(obs_file.keys()),vel_mod_ts[0].keys()): 
 
-            plot_mod_obs_ts_diff_comparison(name_stat, date_in, date_fin, time_res, obs_file, key_obs_file, num_exp, vel_mod_ts, vel_obs_ts, timerange, time_res_xaxis, path_to_output_plot_folder)
+            plot_mod_obs_ts_diff_comparison(name_stat, date_in, date_fin, time_res, obs_file, key_obs_file, num_exp, vel_mod_ts, vel_obs_ts, name_exp, timerange, time_res_xaxis, path_to_output_plot_folder)
             plot_mod_obs_ts_comparison(name_stat, date_in, date_fin, time_res, obs_file, key_obs_file, num_exp, vel_mod_ts, vel_obs_ts, name_exp, timerange, time_res_xaxis, path_to_output_plot_folder)
             plot_mod_obs_ECDF_comparison(name_stat, date_in, date_fin, time_res, obs_file, key_obs_file, num_exp, vel_mod_ts, vel_obs_ts, name_exp, path_to_output_plot_folder)
 
