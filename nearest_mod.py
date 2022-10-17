@@ -53,10 +53,10 @@ def find_nearest_mod_point(obs_file, end_date, name_exp, temp_res, path_to_desta
 
         vettore_lat=U_current.nav_lat.data[:,0]
         vettore_lon=U_current.nav_lon.data[0,:]
-        vettore_depth=U_current.deptht.data
+        vettore_depth=U_current.depthu.data
 
         depth_osservazione = float(obs[depth_obs])
-        array_depth = np.column_stack(U_current.deptht.values)
+        array_depth = np.column_stack(U_current.depthu.values)
         nemo_tree = cKDTree(array_depth.T)
         dist_depth, idx_near_obs_depth = nemo_tree.query(np.array([depth_osservazione]))
 
@@ -73,7 +73,7 @@ def find_nearest_mod_point(obs_file, end_date, name_exp, temp_res, path_to_desta
         #ilat_obs, ilon_obs = np.unravel_index(idx_near_obs_nomask, U_current.nav_lat.shape)
 
         print("obs_point:", obs, depth_osservazione)
-        print("nearest point:", nemo_lonlat[idx_near_obs], U_current.deptht.values[idx_near_obs_depth])
+        print("nearest point:", nemo_lonlat[idx_near_obs], U_current.depthu.values[idx_near_obs_depth])
         #print("nearest point nomask:", U_current.nav_lat.values[ilat_obs, ilon_obs], U_current.nav_lon.values[ilat_obs, ilon_obs], U_current.deptht.values[idx_near_obs_depth])
         print("horizontal distance: ", dist)
         print("vertical distance: ", dist_depth)
@@ -82,7 +82,7 @@ def find_nearest_mod_point(obs_file, end_date, name_exp, temp_res, path_to_desta
 
         i = np.where(vettore_lon==nemo_lonlat[idx_near_obs][0][1])
         j = np.where(vettore_lat==nemo_lonlat[idx_near_obs][0][0])
-        k = np.where(vettore_depth==U_current.deptht.values[idx_near_obs_depth])
+        k = np.where(vettore_depth==U_current.depthu.values[idx_near_obs_depth])
         nearest_point[name] = {'lon_idx': i, 'lat_idx': j, 'depth_idx': k}
         U_current.close()
 
