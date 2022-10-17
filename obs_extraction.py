@@ -211,6 +211,17 @@ def save_nc_obs_ts(obs_file, name, CMEMS_code, WMO_code, date_in, date_fin, time
         qflag[:] = qflag_ts[array_name[boolArr][0]]
         f.close()
 
+def remove_outliers(obs_file,dict_daily_vel_obs):
+    for dict_key,dict_value in obs_file.items():
+        mean_value = np.mean(dict_daily_vel_obs[dict_key][:])
+        sd_value = np.std(dict_daily_vel_obs[dict_key][:])
+        print("mean_value: ",mean_value)
+        print("sd_value: ",sd_value)
+        print("limits: ",mean_value+2*sd_value)
+        up_dict = {dict_key:np.where((dict_daily_vel_obs[dict_key][:]>(mean_value+2*sd_value)) & (dict_daily_vel_obs[dict_key][:]<(mean_value-2*sd_value)),np.nan,dict_daily_vel_obs[dict_key][:])}
+        dict_daily_vel_obs.update(up_dict)
+    return dict_daily_vel_obs
+
 if __name__ == "__main__":
 
     argv=sys.argv
@@ -284,20 +295,22 @@ if __name__ == "__main__":
     obs_file, dict_daily_vel_obs, dict_nan_counter = check_nan(dict_daily_vel_obs, dict_count_nan_vel_obs, obs_file, n_days, nan_treshold)
 
     # list out keys and values separately
-    key_list = list(obs_file.keys())
-    val_list = list(obs_file.values())
-    for dict_key,dict_value in obs_file.items(): 
-        subkey_list = list(dict_value.keys())
-        subval_list = list(dict_value.values())
-        if "VIDA" in subval_list:
-            #position = subval_list.index("VIDA")
-            #print(subkey_list[position])
-            print("dict key: ",dict_key)
-            key_vida=dict_key
-            break
-    #print("chiave: ",key_list[subkey_list[position]])
-    up_dict = {key_vida:np.where(dict_daily_vel_obs[key_vida][:]>0.2,np.nan,dict_daily_vel_obs[key_vida][:])}
-    dict_daily_vel_obs.update(up_dict)
+    #key_list = list(obs_file.keys())
+    #val_list = list(obs_file.values())
+    dict_daily_vel_obs = remove_outliers(obs_file,dict_daily_vel_obs)
+
+#    for dict_key,dict_value in obs_file.items(): 
+#        subkey_list = list(dict_value.keys())
+#        subval_list = list(dict_value.values())
+#        if "VIDA" in subval_list:
+#            #position = subval_list.index("VIDA")
+#            #print(subkey_list[position])
+#            print("dict key: ",dict_key)
+#            key_vida=dict_key
+#            break
+#    #print("chiave: ",key_list[subkey_list[position]])
+#    up_dict = {key_vida:np.where(dict_daily_vel_obs[key_vida][:]>0.2,np.nan,dict_daily_vel_obs[key_vida][:])}
+#    dict_daily_vel_obs.update(up_dict)
 
     nan_file = open(work_dir+"nan_counter_file_" + "_" + date_in + "_" + date_fin + ".csv", "w")
     writer = csv.writer(nan_file)

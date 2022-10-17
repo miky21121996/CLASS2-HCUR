@@ -175,6 +175,8 @@ def plot_mod_obs_ts_diff(name_stat, date_in, date_fin, time_res, obs_file, key_o
                 plt.grid()
                 plt.text(0.17, 0.89, name_exp[0], weight='bold',transform=plt.gcf().transFigure,fontsize=22)
                 ax.tick_params(axis='both', labelsize=26)
+                if time_res_xaxis[1]=='d':
+                    ax.xaxis.set_major_locator(mdates.DayLocator(interval=int(time_res_xaxis[0])))
                 if time_res_xaxis[1]=='w':
                     ax.xaxis.set_major_locator(mdates.WeekdayLocator(interval=int(time_res_xaxis[0])))
                 if time_res_xaxis[1]=='m':
@@ -204,15 +206,20 @@ def plot_mod_obs_ts(name_stat, date_in, date_fin, time_res, obs_file, key_obs_fi
                 plt.grid()
                 plt.text(0.17, 0.89, name_exp[0], weight='bold',transform=plt.gcf().transFigure,fontsize=22)
                 ax.tick_params(axis='both', labelsize=26)
+                if time_res_xaxis[1]=='d':
+                    ax.xaxis.set_major_locator(mdates.DayLocator(interval=int(time_res_xaxis[0])))
+                    ax.xaxis.set_major_formatter(mdates.DateFormatter('%d-%m-%Y'))
                 if time_res_xaxis[1]=='w':
                     ax.xaxis.set_major_locator(mdates.WeekdayLocator(interval=int(time_res_xaxis[0])))
+                    ax.xaxis.set_major_formatter(mdates.DateFormatter('%d-%m-%Y'))
                 if time_res_xaxis[1]=='m':
                #ax.xaxis.set_major_locator(mdates.MonthLocator(interval=int(time_res_xaxis[0])))
-                    ax.xaxis.set_major_locator(mdates.MonthLocator(interval=2))
+                    ax.xaxis.set_major_locator(mdates.MonthLocator(interval=int(time_res_xaxis[0])))
+                    ax.xaxis.set_major_formatter(mdates.DateFormatter('%m-%Y'))
                 if time_res_xaxis[1]=='y':
                     ax.xaxis.set_major_locator(mdates.YearLocator(interval=int(time_res_xaxis[0])))
+                    ax.xaxis.set_major_formatter(mdates.DateFormatter('%m-%Y'))
 
-                ax.xaxis.set_major_formatter(mdates.DateFormatter('%m-%Y'))
                 fig.autofmt_xdate()
                 plt.ylabel('Velocity [m/s]', fontsize=40)
                 plt.xlabel('Date', fontsize=40)
@@ -307,13 +314,19 @@ def plot_bias_rmse_ts(date_in, date_fin, time_res, timerange, bias_ts, rmsd_ts, 
             ax2.set_ylabel('RMSD [m/s]', fontsize=40, color='orange')
             lns2 = ax2.plot(timerange,np.sqrt(list(rmsd_ts.values())),color=color,label = 'RMSD: {} m/s'.format(statistics_array[1]), linewidth=4)
             ax2.tick_params(axis='y', labelsize=26, colors='orange')
+            if time_res_xaxis[1]=='d':
+               ax1.xaxis.set_major_locator(mdates.DayLocator(interval=int(time_res_xaxis[0])))
+               ax1.xaxis.set_major_formatter(mdates.DateFormatter('%d-%m-%Y'))
             if time_res_xaxis[1]=='w':
                ax1.xaxis.set_major_locator(mdates.WeekdayLocator(interval=int(time_res_xaxis[0])))
+               ax1.xaxis.set_major_formatter(mdates.DateFormatter('%d-%m-%Y'))
             if time_res_xaxis[1]=='m':
                ax1.xaxis.set_major_locator(mdates.MonthLocator(interval=int(time_res_xaxis[0])))
+               ax1.xaxis.set_major_formatter(mdates.DateFormatter('%m-%Y'))
             if time_res_xaxis[1]=='y':
                ax1.xaxis.set_major_locator(mdates.YearLocator(interval=int(time_res_xaxis[0])))
-            ax1.xaxis.set_major_formatter(mdates.DateFormatter('%m-%Y'))
+               ax1.xaxis.set_major_formatter(mdates.DateFormatter('%m-%Y'))
+
             fig.autofmt_xdate()
             ax1.set_zorder(1)
             ax1.patch.set_visible(False)
@@ -365,14 +378,19 @@ def plot_mod_obs_ts_diff_comparison(name_stat, date_in, date_fin, time_res, obs_
                     plt.plot([], [], ' ', label = name_exp[exp] + ' (RMSD: ' + str(mean_vel_rmsd)+' m/s)')
                 plt.grid()
                 ax.tick_params(axis='both', labelsize=26)
+                if time_res_xaxis[1]=='d':
+                    ax.xaxis.set_major_locator(mdates.DayLocator(interval=int(time_res_xaxis[0])))
+                    ax.xaxis.set_major_formatter(mdates.DateFormatter('%d-%m-%Y'))
                 if time_res_xaxis[1]=='w':
                     ax.xaxis.set_major_locator(mdates.WeekdayLocator(interval=int(time_res_xaxis[0])))
+                    ax.xaxis.set_major_formatter(mdates.DateFormatter('%d-%m-%Y'))
                 if time_res_xaxis[1]=='m':
                     ax.xaxis.set_major_locator(mdates.MonthLocator(interval=int(time_res_xaxis[0])))
+                    ax.xaxis.set_major_formatter(mdates.DateFormatter('%m-%Y'))
                 if time_res_xaxis[1]=='y':
                     ax.xaxis.set_major_locator(mdates.YearLocator(interval=int(time_res_xaxis[0])))
+                    ax.xaxis.set_major_formatter(mdates.DateFormatter('%m-%Y'))
 
-                ax.xaxis.set_major_formatter(mdates.DateFormatter('%d-%m-%Y'))
                 fig.autofmt_xdate()
                 plt.ylabel('Velocity Difference [m/s]', fontsize=40)
                 plt.xlabel('Date', fontsize=40)
@@ -393,14 +411,19 @@ def plot_mod_obs_ts_comparison(name_stat, date_in, date_fin, time_res, obs_file,
                 plt.plot(timerange,vel_obs_ts[name_stat],label = 'Observation : '+str(mean_vel_obs)+' m/s', linewidth=2)
                 plt.grid()
                 ax.tick_params(axis='both', labelsize=26)
+                if time_res_xaxis[1]=='d':
+                    ax.xaxis.set_major_locator(mdates.DayLocator(interval=int(time_res_xaxis[0])))
+                    ax.xaxis.set_major_formatter(mdates.DateFormatter('%d-%m-%Y'))
                 if time_res_xaxis[1]=='w':
                     ax.xaxis.set_major_locator(mdates.WeekdayLocator(interval=int(time_res_xaxis[0])))
+                    ax.xaxis.set_major_formatter(mdates.DateFormatter('%d-%m-%Y'))
                 if time_res_xaxis[1]=='m':
                     ax.xaxis.set_major_locator(mdates.MonthLocator(interval=int(time_res_xaxis[0])))
+                    ax.xaxis.set_major_formatter(mdates.DateFormatter('%m-%Y'))
                 if time_res_xaxis[1]=='y':
                     ax.xaxis.set_major_locator(mdates.YearLocator(interval=int(time_res_xaxis[0])))
+                    ax.xaxis.set_major_formatter(mdates.DateFormatter('%m-%Y'))
 
-                ax.xaxis.set_major_formatter(mdates.DateFormatter('%d-%m-%Y'))
                 fig.autofmt_xdate()
                 plt.ylabel('Velocity [m/s]', fontsize=40)
                 plt.xlabel('Date', fontsize=40)
@@ -473,14 +496,19 @@ def plot_bias_ts_comparison(date_in, date_fin, time_res, num_exp, timerange, nam
                 ax1.plot(timerange,list(bias_ts[exp].values()),label = name_exp[exp]+' : {} m/s'.format(round(np.nanmean(np.array(list(bias_ts[exp].values()))),2)), linewidth=3)
             ax1.axhline(y=0, color='k', linestyle='--')
             ax1.tick_params(axis='y', labelsize=26)
+            if time_res_xaxis[1]=='d':
+               ax1.xaxis.set_major_locator(mdates.DayLocator(interval=int(time_res_xaxis[0])))
+               ax1.xaxis.set_major_formatter(mdates.DateFormatter('%d-%m-%Y'))
             if time_res_xaxis[1]=='w':
                ax1.xaxis.set_major_locator(mdates.WeekdayLocator(interval=int(time_res_xaxis[0])))
+               ax1.xaxis.set_major_formatter(mdates.DateFormatter('%d-%m-%Y'))
             if time_res_xaxis[1]=='m':
                ax1.xaxis.set_major_locator(mdates.MonthLocator(interval=int(time_res_xaxis[0])))
+               ax1.xaxis.set_major_formatter(mdates.DateFormatter('%m-%Y'))
             if time_res_xaxis[1]=='y':
                ax1.xaxis.set_major_locator(mdates.YearLocator(interval=int(time_res_xaxis[0])))
+               ax1.xaxis.set_major_formatter(mdates.DateFormatter('%m-%Y'))
 
-            ax1.xaxis.set_major_formatter(mdates.DateFormatter('%d-%m-%Y'))
             fig.autofmt_xdate()
             ax1.tick_params(axis='x', labelsize=20)
             ax1.set_zorder(1)
@@ -507,14 +535,19 @@ def plot_rmse_ts_comparison(date_in, date_fin, time_res, num_exp, timerange, nam
                 ax1.plot(timerange,np.sqrt(list(rmsd_ts[exp].values())),label = name_exp[exp] + ' : {} m/s'.format(round(math.sqrt(np.nanmean(np.array(list(rmsd_ts[exp].values())))),2)), linewidth=3)
             ax1.tick_params(axis='y', labelsize=26)
 
+            if time_res_xaxis[1]=='d':
+               ax1.xaxis.set_major_locator(mdates.DayLocator(interval=int(time_res_xaxis[0])))
+               ax1.xaxis.set_major_formatter(mdates.DateFormatter('%d-%m-%Y'))
             if time_res_xaxis[1]=='w':
                ax1.xaxis.set_major_locator(mdates.WeekdayLocator(interval=int(time_res_xaxis[0])))
+               ax1.xaxis.set_major_formatter(mdates.DateFormatter('%d-%m-%Y'))
             if time_res_xaxis[1]=='m':
                ax1.xaxis.set_major_locator(mdates.MonthLocator(interval=int(time_res_xaxis[0])))
+               ax1.xaxis.set_major_formatter(mdates.DateFormatter('%m-%Y'))
             if time_res_xaxis[1]=='y':
                ax1.xaxis.set_major_locator(mdates.YearLocator(interval=int(time_res_xaxis[0])))
+               ax1.xaxis.set_major_formatter(mdates.DateFormatter('%m-%Y'))
 
-            ax1.xaxis.set_major_formatter(mdates.DateFormatter('%d-%m-%Y'))
             fig.autofmt_xdate()
             ax1.tick_params(axis='x', labelsize=20)
             ax1.set_zorder(1)
