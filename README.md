@@ -9,7 +9,7 @@ INPUT VARIABLES:
   a. date_in: initial date  
   b. date_fin: final date  
   c. path_to_mod_output: location of model files to be used  
-  d. name_exp: name of the model experiment (that is specified in the name of the model files). If the model files of the experiment have more than one name, write them separated by comma (ex: mfs1,mfs2)  
+  d. name_exp: name of the model experiment (that is specified in the name of the model files). If the model files of the experiment change name over time, write all the names separated by comma (ex: mfs1,mfs2)  
   e. time_res: time resolution of model files (1d, 1h...)  
   f. path_to_mask_file
   g. path_to_metadata_obs_file  
