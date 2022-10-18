@@ -9,7 +9,7 @@ INPUT VARIABLES:
   a. date_in: initial date  
   b. date_fin: final date  
   c. path_to_mod_output: location of model files to be used  
-  d. name_exp: name of the model experiment (that is specified in the name of the model files). If more than one write them separated by comma (ex: mfs1,mfs2)  
+  d. name_exp: name of the model experiment (that is specified in the name of the model files). If the model files of the experiment have more than one name, write them separated by comma (ex: mfs1,mfs2)  
   e. time_res: time resolution of model files (1d, 1h...)  
   f. path_to_mask_file
   g. path_to_metadata_obs_file  
@@ -32,10 +32,10 @@ INPUT VARIABLES
 
   a. date_in  
   b. date_fin  
-  c. num_exp: number of experiments. If num_exp = 1 main_plot.sh will provide plots about validation of the single experiment against observations. If num_exp > 1, main_plot.sh will provide plots about comparison between the experiments.  
+  c. num_exp: number of experiments. If num_exp = 1 main_plot.sh will provide plots about validation of the single experiment against observations. If num_exp > 1, main_plot.sh will provide plots about comparison between the experiments (so, the first step is to run sh main_mod_obs_extraction.sh for each experiment).  
   d. time_res  
   e. path_to_obs_file: location of metadata file created after checks  
-  f. path_to_out_mod_ts: location of extracted model time series nc files, name of experiment you want to give in the plots  
+  f. path_to_out_mod_ts: location of extracted model time series nc files + name of experiment you want to be shown in the plots  
   Example: if num_exp = 1, path_to_out_mod_ts=/work/oda/mg28621/prova_destag/surface_insitu_validation/output_mod_ts_2019_3m_completed_treshold_0p4_eas5_hp_v2/,EAS5  
            if num_exp = 2, path_to_out_mod_ts=/work/oda/mg28621/prova_destag/surface_insitu_validation/output_mod_ts_2019_3m_completed_treshold_0p4_eas5_hp_v2/,/work/oda/mg28621/prova_destag/surface_insitu_validation/output_mod_ts_2019_3m_completed_treshold_0p4_minr_ctrl0/,EAS5,minr_ctrl0  
   g. path_to_out_obs_ts: location of extracted observation time series nc files
