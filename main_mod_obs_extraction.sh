@@ -2,9 +2,9 @@
 
 source $PWD/current_val.ini
 
-bsub -K -n 1 -q s_long -J CURVAL -e aderr_0 -o adout_0 -P 0510 "python obs_extraction.py $date_in $date_fin $path_to_metadata_obs_file $time_res $path_to_out_obs_ts $depth_obs $nan_treshold $path_to_accepted_metadata_obs_file $work_dir" &
+#bsub -K -n 1 -q s_long -J CURVAL -e aderr_0 -o adout_0 -P 0510 "python obs_extraction.py $date_in $date_fin $path_to_metadata_obs_file $time_res $path_to_out_obs_ts $depth_obs $nan_treshold $path_to_accepted_metadata_obs_file $work_dir" &
 
-wait
+#wait
 
 IFS=',' read -r -a name_exp_array <<< "$name_exp"
 

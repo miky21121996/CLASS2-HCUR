@@ -213,12 +213,17 @@ def save_nc_obs_ts(obs_file, name, CMEMS_code, WMO_code, date_in, date_fin, time
 
 def remove_outliers(obs_file,dict_daily_vel_obs):
     for dict_key,dict_value in obs_file.items():
-        mean_value = np.mean(dict_daily_vel_obs[dict_key][:])
-        sd_value = np.std(dict_daily_vel_obs[dict_key][:])
+        mean_value = np.nanmean(dict_daily_vel_obs[dict_key][:])
+        sd_value = np.nanstd(dict_daily_vel_obs[dict_key][:])
+        print("dict_key: ",dict_key)
         print("mean_value: ",mean_value)
         print("sd_value: ",sd_value)
         print("limits: ",mean_value+2*sd_value)
-        up_dict = {dict_key:np.where((dict_daily_vel_obs[dict_key][:]>(mean_value+2*sd_value)) & (dict_daily_vel_obs[dict_key][:]<(mean_value-2*sd_value)),np.nan,dict_daily_vel_obs[dict_key][:])}
+        print("max: ",np.nanmax(dict_daily_vel_obs[dict_key][:]))
+        print("array prima: ",dict_daily_vel_obs[dict_key][:])
+        up_dict = {dict_key:np.where((dict_daily_vel_obs[dict_key][:]>(mean_value+2*sd_value)) | (dict_daily_vel_obs[dict_key][:]<(mean_value-2*sd_value)),np.nan,dict_daily_vel_obs[dict_key][:])}
+        print("array dopo: ",np.where((dict_daily_vel_obs[dict_key][:]>(mean_value+2*sd_value)) | (dict_daily_vel_obs[dict_key][:]<(mean_value-2*sd_value)),np.nan,dict_daily_vel_obs[dict_key][:]))
+        print("max: ",np.nanmax(dict_daily_vel_obs[dict_key][:]))
         dict_daily_vel_obs.update(up_dict)
     return dict_daily_vel_obs
 

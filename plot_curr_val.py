@@ -277,9 +277,9 @@ def plot_mod_obs_hist(name_stat, date_in, date_fin, time_res, obs_file, key_obs_
                 plt.savefig(path_to_output_plot_folder + plotname)
                 plt.clf()
 
-def plot_mod_obs_ECDF(name_stat, date_in, date_fin, time_res, obs_file, key_obs_file, vel_mod_ts, vel_obs_ts, path_to_output_plot_folder):
+def plot_mod_obs_ECDF(name_stat,date_in, date_fin, time_res, obs_file, key_obs_file, vel_mod_ts, vel_obs_ts, path_to_output_plot_folder,suffix):
 
-                plotname = name_stat + '_' + date_in + '_' + date_fin + '_' + time_res + '_mod_obs_ECDF.png'
+                plotname = name_stat + '_' + date_in + '_' + date_fin + '_' + time_res + suffix
                 fig = plt.figure(figsize=(18,12))
                 ax = fig.add_subplot(111)
                 plt.rc('font', size=16)
@@ -288,8 +288,8 @@ def plot_mod_obs_ECDF(name_stat, date_in, date_fin, time_res, obs_file, key_obs_
                 ax.tick_params(axis='both', labelsize=26)
                 plt.xlabel ('velocity [m/s]', fontsize=40)
                 plt.ylabel ('ECDF', fontsize=40)
-                ecdf_obs = ECDF(np.array(vel_obs_ts[name_stat]))
-                ecdf_mod = ECDF(np.array(vel_mod_ts[name_stat]))
+                ecdf_obs = ECDF(np.array(vel_obs_ts))
+                ecdf_mod = ECDF(np.array(vel_mod_ts))
                 plt.axhline(y=0.5, color='black', linestyle="dashed")
                 plt.plot(ecdf_mod.x,ecdf_mod.y,label="model", linewidth=4)
                 plt.plot(ecdf_obs.x,ecdf_obs.y,label="observation", linewidth=4)
@@ -344,8 +344,8 @@ def plot_bias_rmse_ts(date_in, date_fin, time_res, timerange, bias_ts, rmsd_ts, 
             plt.savefig(path_to_output_plot_folder + plotname, dpi=300, bbox_inches = "tight")
             plt.clf()
 
-def plot_mod_obs_ECDF_total(date_in, date_fin, time_res, mod_array, obs_array, path_to_output_plot_folder):
-            plotname = date_in + '_' + date_fin + '_' + time_res + '_mod_obs_ECDF.png'
+def plot_mod_obs_ECDF_total(date_in, date_fin, time_res, mod_array, obs_array, path_to_output_plot_folder,suffix):
+            plotname = date_in + '_' + date_fin + '_' + time_res + suffix
             fig = plt.figure(figsize=(18,12))
             ax = fig.add_subplot(111)
             plt.rc('font', size=16)
@@ -431,8 +431,8 @@ def plot_mod_obs_ts_comparison(name_stat, date_in, date_fin, time_res, obs_file,
                 plt.savefig(path_to_output_plot_folder + plotname)
                 plt.clf()
 
-def plot_mod_obs_ECDF_comparison(name_stat, date_in, date_fin, time_res, obs_file, key_obs_file, num_exp, vel_mod_ts, vel_obs_ts, name_exp, path_to_output_plot_folder):
-                plotname = name_stat + '_' + date_in + '_' + date_fin + '_' + time_res + '_mod_obs_ECDF_comparison.png'
+def plot_mod_obs_ECDF_comparison(yn,ii,name_stat, date_in, date_fin, time_res, obs_file, key_obs_file, num_exp, vel_mod_ts, vel_obs_ts, name_exp, path_to_output_plot_folder,suffix):
+                plotname = name_stat + '_' + date_in + '_' + date_fin + '_' + time_res + suffix
                 fig = plt.figure(figsize=(18,12))
                 ax = fig.add_subplot(111)
                 plt.rc('font', size=16)
@@ -441,18 +441,24 @@ def plot_mod_obs_ECDF_comparison(name_stat, date_in, date_fin, time_res, obs_fil
                 ax.tick_params(axis='both', labelsize=26)
                 plt.xlabel ('velocity [m/s]', fontsize=40)
                 plt.ylabel ('ECDF', fontsize=40)
-                ecdf_obs = ECDF(np.array(vel_obs_ts[name_stat]))
+                if yn=='no':
+                    ecdf_obs = ECDF(np.array(vel_obs_ts[name_stat]))
+                if yn=='yes':
+                    ecdf_obs = ECDF(np.array(vel_obs_ts[name_stat][ii]))
                 plt.axhline(y=0.5, color='black', linestyle="dashed")
                 for exp in range(num_exp):
-                    ecdf_mod = ECDF(np.array(vel_mod_ts[exp][name_stat]))
+                    if yn=='no':
+                        ecdf_mod = ECDF(np.array(vel_mod_ts[exp][name_stat]))
+                    if yn=='yes':
+                        ecdf_mod = ECDF(np.array(vel_mod_ts[exp][name_stat][ii]))
                     plt.plot(ecdf_mod.x,ecdf_mod.y,label=name_exp[exp], linewidth=4)
                 plt.plot(ecdf_obs.x,ecdf_obs.y,label="observation", linewidth=4)
                 plt.legend( loc='lower right', prop={'size': 40})
                 plt.savefig(path_to_output_plot_folder + plotname)
                 plt.clf()
 
-def plot_tot_mod_obs_ECDF_comparison(date_in, date_fin, time_res, num_exp, vel_mod_ts, vel_obs_ts, name_exp, path_to_output_plot_folder):
-            plotname = date_in + '_' + date_fin + '_' + time_res + '_mod_obs_ECDF_comparison.png'
+def plot_tot_mod_obs_ECDF_comparison(date_in, date_fin, time_res, num_exp, vel_mod_ts, vel_obs_ts, name_exp, path_to_output_plot_folder,suffix):
+            plotname = date_in + '_' + date_fin + '_' + time_res + suffix
             fig = plt.figure(figsize=(18,12))
             ax = fig.add_subplot(111)
             plt.rc('font', size=16)
@@ -600,7 +606,9 @@ if __name__ == "__main__":
 
         statistics={}
         vel_mod_ts={}
+        #vel_mod_ts_without_nan={}
         vel_obs_ts={}
+        #vel_obs_ts_without_nan={}
         depth_obs_ts={}
         qflag_obs_ts={}
         for filename_mod, filename_obs in zip(onlyfiles_mod, onlyfiles_obs):
@@ -615,6 +623,7 @@ if __name__ == "__main__":
             vel_mod_ts[name_station] = ma.getdata(mod_ts.groups['current velocity time series'].variables['Current Velocity'][:])
             obs_ts = NC.Dataset(path_to_obs_ts_folder + filename_obs,'r')
             vel_obs_ts[name_station] = ma.getdata(obs_ts.groups['current velocity time series'].variables['Current Velocity'][:])
+            #vel_mod_ts_without_nan[name_station] = np.where(np.isnan(vel_obs_ts[name_station][:]),np.nan,vel_mod_ts[name_station][:])
             depth_obs_ts[name_station] = ma.getdata(obs_ts.groups['depth time series'].variables['Depth'][:])
             qflag_obs_ts[name_station] = ma.getdata(obs_ts.groups['qflag time series'].variables['Qflag'][:])
 
@@ -630,8 +639,9 @@ if __name__ == "__main__":
             #plot_qflag_obs_hist(name_stat, date_in, date_fin, obs_file, key_obs_file, qflag_obs_ts, path_to_output_plot_folder)
 
             #plot_mod_obs_hist(name_stat, date_in, date_fin, time_res, obs_file, key_obs_file, vel_mod_ts, vel_obs_ts, path_to_output_plot_folder)
-
-            plot_mod_obs_ECDF(name_stat, date_in, date_fin, time_res, obs_file, key_obs_file, vel_mod_ts, vel_obs_ts, path_to_output_plot_folder)
+            ii = np.isfinite(np.array(vel_obs_ts[name_stat]))
+            plot_mod_obs_ECDF(name_stat, date_in, date_fin, time_res, obs_file, key_obs_file, vel_mod_ts[name_stat], vel_obs_ts[name_stat], path_to_output_plot_folder,'_mod_obs_ECDF.png')
+            plot_mod_obs_ECDF(name_stat, date_in, date_fin, time_res, obs_file, key_obs_file, vel_mod_ts[name_stat][ii], vel_obs_ts[name_stat][ii], path_to_output_plot_folder,'_modwn_obs_ECDF.png')
 
             plotname = name_stat + '_' + date_in + '_' + date_fin + '_' + time_res +  '_qqPlot.png'
             title = 'Surface (3m) Current Velocity ' + name_stat + '\n (' + obs_file[key_obs_file]['lat'] + ', ' + obs_file[key_obs_file]['lon'] + ') Period: ' + date_in + ' - ' + date_fin
@@ -674,6 +684,8 @@ if __name__ == "__main__":
             mod_array = np.concatenate([mod_array, np.array(vel_mod_ts[name_stat])])
             obs_array = np.concatenate([obs_array, np.array(vel_obs_ts[name_stat])])
 
+        #mod_array_with_nan=np.where(np.isnan(obs_array[:]),np.nan,mod_array[:])
+
         tot_mean_mod=round(np.nanmean(mod_array),2)
         tot_mean_obs=round(np.nanmean(obs_array),2)
         mean_all=[tot_mean_mod,tot_mean_obs]
@@ -687,8 +699,9 @@ if __name__ == "__main__":
         statistics["ALL BUOYS"] = row_all
        
         plot_bias_rmse_ts(date_in, date_fin, time_res, timerange, bias_ts, rmsd_ts, statistics_array, time_res_xaxis, name_exp, path_to_output_plot_folder)
-
-        plot_mod_obs_ECDF_total(date_in, date_fin, time_res, mod_array, obs_array, path_to_output_plot_folder)
+        ii = np.isfinite(obs_array)
+        plot_mod_obs_ECDF_total(date_in, date_fin, time_res, mod_array, obs_array, path_to_output_plot_folder,'_mod_obs_ECDF.png')
+        plot_mod_obs_ECDF_total(date_in, date_fin, time_res, mod_array[ii], obs_array[ii], path_to_output_plot_folder,'_modwn_obs_ECDF.png')
 
         lon={}
         lat={}
@@ -704,12 +717,14 @@ if __name__ == "__main__":
         a_file.close()
 
     if num_exp > 1:
-        vel_mod_ts={ }     
+        vel_mod_ts={ }
+        #vel_mod_ts_with_nan={ }     
         for exp in range(num_exp):
             onlyfiles_mod = [f for f in sorted(listdir(path_to_mod_ts_folder[exp])) if isfile(join(path_to_mod_ts_folder[exp], f))]
             onlyfiles_obs = [f for f in sorted(listdir(path_to_obs_ts_folder)) if isfile(join(path_to_obs_ts_folder, f))]
 
             vel_mod_ts[exp]={}
+            #vel_mod_ts_with_nan[exp]={}
             vel_obs_ts={}
             for filename_mod, filename_obs in zip(onlyfiles_mod, onlyfiles_obs):
                 splitted_name = np.array(filename_mod.split("_"))
@@ -720,14 +735,18 @@ if __name__ == "__main__":
                 vel_mod_ts[exp][name_station] = ma.getdata(mod_ts.groups['current velocity time series'].variables['Current Velocity'][:])
                 obs_ts = NC.Dataset(path_to_obs_ts_folder + filename_obs,'r')
                 vel_obs_ts[name_station] = ma.getdata(obs_ts.groups['current velocity time series'].variables['Current Velocity'][:])
+                #vel_mod_ts_with_nan[exp][name_station] = np.where(np.isnan(vel_obs_ts[name_station][:]),np.nan,vel_mod_ts[exp][name_station][:])
 
         for key_obs_file, name_stat in zip(sorted(obs_file.keys()),vel_mod_ts[0].keys()): 
 
             plot_mod_obs_ts_diff_comparison(name_stat, date_in, date_fin, time_res, obs_file, key_obs_file, num_exp, vel_mod_ts, vel_obs_ts, name_exp, timerange, time_res_xaxis, path_to_output_plot_folder)
             plot_mod_obs_ts_comparison(name_stat, date_in, date_fin, time_res, obs_file, key_obs_file, num_exp, vel_mod_ts, vel_obs_ts, name_exp, timerange, time_res_xaxis, path_to_output_plot_folder)
-            plot_mod_obs_ECDF_comparison(name_stat, date_in, date_fin, time_res, obs_file, key_obs_file, num_exp, vel_mod_ts, vel_obs_ts, name_exp, path_to_output_plot_folder)
+            ii = np.isfinite(np.array(vel_obs_ts[name_stat]))
+            plot_mod_obs_ECDF_comparison("no",ii,name_stat, date_in, date_fin, time_res, obs_file, key_obs_file, num_exp, vel_mod_ts, vel_obs_ts, name_exp, path_to_output_plot_folder,'_mod_obs_ECDF_comparison.png')
+            plot_mod_obs_ECDF_comparison("yes",ii,name_stat, date_in, date_fin, time_res, obs_file, key_obs_file, num_exp, vel_mod_ts, vel_obs_ts, name_exp, path_to_output_plot_folder,'_modwn_obs_ECDF_comparison.png')
 
-        plot_tot_mod_obs_ECDF_comparison(date_in, date_fin, time_res, num_exp, vel_mod_ts, vel_obs_ts, name_exp, path_to_output_plot_folder)
+        plot_tot_mod_obs_ECDF_comparison(date_in, date_fin, time_res, num_exp, vel_mod_ts, vel_obs_ts, name_exp, path_to_output_plot_folder,'_mod_obs_ECDF_comparison.png')
+        plot_tot_mod_obs_ECDF_comparison(date_in, date_fin, time_res, num_exp, vel_mod_ts_with_nan, vel_obs_ts, name_exp, path_to_output_plot_folder,'_modwn_obs_ECDF_comparison.png')
 
         bias_ts={ }
         diff_q_ts={ }
