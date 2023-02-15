@@ -718,13 +718,13 @@ if __name__ == "__main__":
 
     if num_exp > 1:
         vel_mod_ts={ }
-        #vel_mod_ts_with_nan={ }     
+        vel_mod_ts_with_nan={ }     
         for exp in range(num_exp):
             onlyfiles_mod = [f for f in sorted(listdir(path_to_mod_ts_folder[exp])) if isfile(join(path_to_mod_ts_folder[exp], f))]
             onlyfiles_obs = [f for f in sorted(listdir(path_to_obs_ts_folder)) if isfile(join(path_to_obs_ts_folder, f))]
 
             vel_mod_ts[exp]={}
-            #vel_mod_ts_with_nan[exp]={}
+            vel_mod_ts_with_nan[exp]={}
             vel_obs_ts={}
             for filename_mod, filename_obs in zip(onlyfiles_mod, onlyfiles_obs):
                 splitted_name = np.array(filename_mod.split("_"))
@@ -735,7 +735,7 @@ if __name__ == "__main__":
                 vel_mod_ts[exp][name_station] = ma.getdata(mod_ts.groups['current velocity time series'].variables['Current Velocity'][:])
                 obs_ts = NC.Dataset(path_to_obs_ts_folder + filename_obs,'r')
                 vel_obs_ts[name_station] = ma.getdata(obs_ts.groups['current velocity time series'].variables['Current Velocity'][:])
-                #vel_mod_ts_with_nan[exp][name_station] = np.where(np.isnan(vel_obs_ts[name_station][:]),np.nan,vel_mod_ts[exp][name_station][:])
+                vel_mod_ts_with_nan[exp][name_station] = np.where(np.isnan(vel_obs_ts[name_station][:]),np.nan,vel_mod_ts[exp][name_station][:])
 
         for key_obs_file, name_stat in zip(sorted(obs_file.keys()),vel_mod_ts[0].keys()): 
 
